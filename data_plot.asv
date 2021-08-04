@@ -1,0 +1,43 @@
+function dataplot( arg )
+%IMPORTDATA Summary of this function goes here
+%   Detailed explanation goes here
+datafile = dlmread(arg);
+
+[dist_max,data_max]= size(datafile);
+
+error_rate(:,1)= datafile(:,data_max);
+for i=1:data_max-1
+rssi_data(:,i) = datafile(:,i);
+end
+
+% test_val=zeros(size(testone));
+% test_rep=zeros(size(testone));
+%data_max=data_max-1; %last column is not rssi
+
+distance=1:dist_max;
+for i=1:dist_max
+    figure(1);
+    test_val=unique(rssi_data(i,:));
+    test_rep=histc(rssi_data(i,:),test_val);
+    plot3(i*ones(length(test_val)),test_val,test_rep);
+    hold on;
+    grid on;
+    ylim ([-100 -60]);
+
+    mean_point(i)= mean(rssi_data(i,:));
+    max_point(i)= max(rssi_data(i,:));
+    min_point(i)= min(rssi_data(i,:));
+
+end
+ figure(2);
+ plot(mean_point, 'bo')
+ hold on;
+ grid on;
+ figure(3);
+ plot(max_point, 'bo')
+ hold on;
+ grid on;
+ figure(4);
+ plot(min_point, 'bo')
+ hold on;
+ grid on;
